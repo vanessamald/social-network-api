@@ -73,7 +73,12 @@ const thoughtController = {
     
     // create reaction
     createReaction({ params, body }, res) {
-        Thought.findOneAndUpdate({ _id: params.id }, { $push: { reactions: body } }, { new: true })
+        Thought.findOneAndUpdate({ _id: params.id }, { $push: { reactions: body } }, { new: true, runValidators: true })
+            .populate({
+                path: 'reactions',
+                select: '-__v'
+            })
+            .select('-__v')
             .then(dbThoughtData => {
                 if (!dbThoughtData) {
                     res.status(404).json({ message: 'No thought found with this id!' });
