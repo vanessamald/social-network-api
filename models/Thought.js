@@ -1,36 +1,5 @@
 const { Schema, model } = require('mongoose');
-
-const ThoughtSchema = new Schema({
-    thoughtText: {
-        type: String,
-        required: true,
-        minlength: 1,
-        maxLength: 280
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        get: createdAtVal => dateFormat(createdAtVal)
-    },
-    username: {
-        type: String,
-        required: true
-    },
-    reactions: [
-        {
-            type: Schema.Types.ObjectId,    
-            ref: 'Reaction'
-        } 
-    ]
-    },
-    {
-        toJSON: {
-            virtuals: true,
-            getters: true
-    },
-    id: false
-
-});
+const moment = require('moment');
 
 const ReactionSchema = new Schema({
     reactionId: {
@@ -49,13 +18,42 @@ const ReactionSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-        get: createdAtVal => dateFormat(createdAtVal)
+        get: createdAtVal => moment(createdAtVal).format('MMMM Do YYYY, h:mm:ss a')
     }
 },
 {
     toJSON: {
         getters: true
 }
+});
+
+const ThoughtSchema = new Schema({
+    thoughtText: {
+        type: String,
+        required: true,
+        minlength: 1,
+        maxLength: 280
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        get: createdAtVal => moment(createdAtVal).format('MMMM Do YYYY, h:mm:ss a')
+    },
+    username: {
+        type: String,
+        required: true
+    },
+    reactions: [
+        ReactionSchema 
+    ]
+    },
+    {
+        toJSON: {
+            virtuals: true,
+            getters: true
+    },
+    id: false
+
 });
 
 // get the length of the thought's reactions array
