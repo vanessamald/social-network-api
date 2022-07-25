@@ -25,6 +25,13 @@ const UserSchema = new Schema({
             ref: 'User'
         }
     ] 
+},
+{
+    toJSON: {
+        virtuals: true,
+        getters: true
+    },
+    id: false
 });
 
 // get the length of the user's friends array

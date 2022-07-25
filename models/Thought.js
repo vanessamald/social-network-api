@@ -4,6 +4,7 @@ const ThoughtSchema = new Schema({
     thoughtText: {
         type: String,
         required: true,
+        minlength: 1,
         maxLength: 280
     },
     createdAt: {
@@ -20,7 +21,15 @@ const ThoughtSchema = new Schema({
             type: Schema.Types.ObjectId,    
             ref: 'Reaction'
         } 
-    ] 
+    ]
+    },
+    {
+        toJSON: {
+            virtuals: true,
+            getters: true
+    },
+    id: false
+
 });
 
 const ReactionSchema = new Schema({
@@ -42,9 +51,18 @@ const ReactionSchema = new Schema({
         default: Date.now,
         get: createdAtVal => dateFormat(createdAtVal)
     }
+},
+{
+    toJSON: {
+        getters: true
+}
 });
 
 // get the length of the thought's reactions array
 ThoughtSchema.virtual('reactionCount').get(function() {
     return this.reactions.length;
 });
+
+const Thought = model('Thought', ThoughtSchema);
+
+module.exports = Thought;
