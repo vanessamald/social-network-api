@@ -17,6 +17,9 @@
 - THEN I am able to successfully create and delete reactions to thoughts and add and remove friends to a user’s friend list
 
 ## Description:
+- Walkthrough video link below:
+<br>
+https://drive.google.com/file/d/1ywKMtQ-t9pWAOJzhE4q8jmBsNnLxqkbn/view?usp=sharing
 
 
 ## Table of Contents:
